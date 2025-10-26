@@ -50,8 +50,10 @@
     "@papra/api-sdk": "workspace:*",
     "citty": "^0.1.6",
     "conf": "^13.1.0",
+    "jszip": "^3.10.1",
     "mime-types": "^3.0.1",
     "ofetch": "^1.4.1",
+    "picocolors": "^1.1.1",
     "valibot": "1.0.0-beta.10"
   },
   "devDependencies": {
