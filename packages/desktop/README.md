@@ -1,6 +1,9 @@
 # Papra - Desktop
 A lightweight Desktop Distribution of Papra
 
+## PreRequires
+Google Chrome Installed on the Desktop
+
 ## Goals
 Using it on a local Desktop with a filesystem backend creating a local sqlite index inside APPDATA/Roaming or ~/.local/papra
 
