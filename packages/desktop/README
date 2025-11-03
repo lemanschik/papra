@@ -1,0 +1,15 @@
+# Papra - Desktop
+A lightweight Desktop Distribution of Papra
+
+## Goals
+Using it on a local Desktop with a filesystem backend creating a local sqlite index inside APPDATA/Roaming or ~/.local/papra
+
+Run it nativ on the host keep runtime and code + assets indipendent for fast updates.
+
+
+## This is Sponsored by AwesomeOS 
+First of Its kind Software defined because the creator likes the papra Project this acts as minimal demo of AwesomeOS's Application bundling Patterns.
+It uses Google Chrome as Rendering Only Application shell host integration comes from the Runtime. The installer is a minimal script designed to
+get executed via windows scripting host or pre installed nodejs to bypass flagging the executeable file via Operating System as untrusted.
+
+License is here by applyed to get used with papra only if you want to reimplement that for your own project do not ask inside this repo.
