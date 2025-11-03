@@ -8,7 +8,7 @@ Run it nativ on the host keep runtime and code + assets indipendent for fast upd
 
 
 ## This is Sponsored by AwesomeOS 
-First of Its kind Software defined because the creator likes the papra Project this acts as minimal demo of AwesomeOS's Application bundling Patterns.
+First of Its kind Software defined OS because the creator likes the papra Project this acts as minimal demo of AwesomeOS's Application bundling Patterns.
 It uses Google Chrome as Rendering Only Application shell host integration comes from the Runtime. The installer is a minimal script designed to
 get executed via windows scripting host or pre installed nodejs to bypass flagging the executeable file via Operating System as untrusted.
 
