@@ -4,11 +4,16 @@ A lightweight Desktop Distribution of Papra
 ## PreRequires
 Google Chrome Installed on the Desktop
 
+## Development
+
+```js
+npx @papra/desktop 
+```
+
 ## Goals
 Using it on a local Desktop with a filesystem backend creating a local sqlite index inside APPDATA/Roaming or ~/.local/papra
 
 Run it nativ on the host keep runtime and code + assets indipendent for fast updates.
-
 
 ## This is Sponsored by AwesomeOS 
 First of Its kind Software defined OS because the creator likes the papra Project this acts as minimal demo of AwesomeOS's Application bundling Patterns.
