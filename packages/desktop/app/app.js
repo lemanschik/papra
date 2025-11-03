@@ -34,6 +34,7 @@ const documentsStorageService = createDocumentStorageService({ documentStorageCo
 const taskServices = createTaskServices({ config });
 await taskServices.initialize();
 // Should be maybe only web mode not sure what workers do.
+// found out that processMode all is default and that does both which is great to know
 if (isWebMode) {
   const { app } = await createServer({ config, db, taskServices, documentsStorageService });
   // needs replacement 
