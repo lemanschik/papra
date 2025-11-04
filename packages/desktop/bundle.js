@@ -29,6 +29,8 @@ for await (const value of stream) {
 // pnpm deploy --filter=@papra/app-server --legacy --prod packages/desktop/papra-server
 // cp apps/papra-client/dist packages/desktop/papra-server/public
 
+// if there is trouble apps/papra-server/src/modules/app/static-assets/static-assets.routes.ts uses hono node-server serve static.
+
 // ENV NODE_ENV=production
 // ENV SERVER_SERVE_PUBLIC_DIR=true
 // ENV DATABASE_URL=file:./app-data/db/db.sqlite
