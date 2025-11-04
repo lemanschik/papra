@@ -62,10 +62,10 @@ export const init = async () => {
   }
 
   return {
-    taskServices,
-    isWorkerMode,
-    isWebMode,
-    app: isWebMode ? requestHandler(await createServer({ config, db, taskServices, documentsStorageService })) : undefined
+    taskServices, isWorkerMode, isWebMode,
+    app: isWebMode ? requestHandler(await createServer(
+      { config, db, taskServices, documentsStorageService }
+    )) : undefined,
   }
 }
 
