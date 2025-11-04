@@ -1,6 +1,6 @@
 # Papra - App Client
 
-This is the server for [Papra](https://papra.app).
+This is the client for [Papra](https://papra.app).
 
 ## Development
 
