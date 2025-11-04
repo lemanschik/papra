@@ -1,7 +1,6 @@
 /* eslint-disable antfu/no-top-level-await */
 import process, { env } from 'node:process';
-import { serve } from '@hono/node-server';
-// . === papra/apps/papra-server
+
 import { setupDatabase } from '@papra/app-server/modules/app/database/database';
 import { ensureLocalDatabaseDirectoryExists } from '@papra/app-server/modules/app/database/database.services';
 import { createGracefulShutdownService } from '@papra/app-server/modules/app/graceful-shutdown/graceful-shutdown.services';
@@ -26,51 +25,55 @@ logger.info({ processMode: config.processMode, isWebMode, isWorkerMode }, 'Start
 const shutdownService = createGracefulShutdownService({ logger });
 const { registerShutdownHandler } = shutdownService;
 
-await ensureLocalDatabaseDirectoryExists({ config });
-const { db } = setupDatabase({ ...config.database, registerShutdownHandler });
-
-const documentsStorageService = createDocumentStorageService({ documentStorageConfig: config.documentsStorage });
-
-const taskServices = createTaskServices({ config });
-await taskServices.initialize();
-// Should be maybe only web mode not sure what workers do.
-// found out that processMode all is default and that does both which is great to know
-if (isWebMode) {
-  const { app } = await createServer({ config, db, taskServices, documentsStorageService });
-
-    if (interceptedRequest.isInterceptResolutionHandled()){ return; }
-    
-    // 1. Get the URL and Method
-      app.fetch(new Request(
-        interceptedRequest.url(),{ 
-          method: interceptedRequest.method(), 
-          headers: interceptedRequest.headers(),
-          body: (method === 'POST' || method === 'PUT') 
-            ? interceptedRequest.fetchPostData() 
-            : undefined,
-        }
-      )).then(res => res.statusCode > 200 
-        ? interceptedRequest.respond(res) 
-        : interceptedRequest.continoue()
-      )
-}
-
-if (isWorkerMode) {
-  if (config.ingestionFolder.isEnabled) {
-    const { startWatchingIngestionFolders } = createIngestionFolderWatcher({
-      taskServices,
-      config,
-      db,
-      documentsStorageService,
-    });
-
-    await startWatchingIngestionFolders();
+export const init = async () => {
+  await ensureLocalDatabaseDirectoryExists({ config });
+  const { db } = setupDatabase({ ...config.database, registerShutdownHandler });
+  
+  const documentsStorageService = createDocumentStorageService({ documentStorageConfig: config.documentsStorage });
+  
+  const taskServices = createTaskServices({ config });
+  await taskServices.initialize();
+  // Should be maybe only web mode not sure what workers do.
+  // found out that processMode all is default and that does both which is great to know  
+  
+  if (isWorkerMode) {
+    if (config.ingestionFolder.isEnabled) {
+      const { startWatchingIngestionFolders } = createIngestionFolderWatcher({
+        taskServices, config, db, documentsStorageService,
+      });
+  
+      await startWatchingIngestionFolders();
+    }
+  
+    await registerTaskDefinitions({ taskServices, db, config, documentsStorageService });
+  
+    taskServices.start();
+    logger.info('Worker started');
   }
 
-  await registerTaskDefinitions({ taskServices, db, config, documentsStorageService });
+  return {
+    taskServices,
+    isWorkerMode,
+    isWebMode,
+    app: isWebMode ? requestHandler(await createServer({ config, db, taskServices, documentsStorageService })) : undefined
+  }
+}
 
-  taskServices.start();
-  logger.info('Worker started');
+// handels the browser requests
+const requestHandler = ({app}) => interceptedRequest => {
+  if (interceptedRequest.isInterceptResolutionHandled()){ return; }
+  const method = interceptedRequest.method();
+  app.fetch(new Request(
+    interceptedRequest.url(),{ 
+      method, headers: interceptedRequest.headers(),
+      body: (method === 'POST' || method === 'PUT') 
+        ? interceptedRequest.fetchPostData() 
+        : undefined,
+    }
+  )).then(res => res.statusCode > 200 
+    ? interceptedRequest.respond(res) 
+    : interceptedRequest.continoue()
+  )
 }
 
 // Global error handlers
