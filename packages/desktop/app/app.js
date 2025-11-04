@@ -37,22 +37,22 @@ await taskServices.initialize();
 // found out that processMode all is default and that does both which is great to know
 if (isWebMode) {
   const { app } = await createServer({ config, db, taskServices, documentsStorageService });
-  // needs replacement 
-  const server = serve(
-    {
-      fetch: app.fetch,
-      port: config.server.port,
-      hostname: config.server.hostname,
-    },
-    ({ port }) => logger.info({ port }, 'Server started'),
-  );
 
-  registerShutdownHandler({
-    id: 'web-server-close',
-    handler: () => {
-      server.close();
-    },
-  });
+      if (interceptedRequest.isInterceptResolutionHandled()){ return; }
+    
+    // 1. Get the URL and Method
+      app.fetch(new Request(
+        interceptedRequest.url(),{ 
+          method: interceptedRequest.method(), 
+          headers: interceptedRequest.headers(),
+          body: (method === 'POST' || method === 'PUT') 
+            ? interceptedRequest.fetchPostData() 
+            : undefined,
+        }
+      )).then(res => res.statusCode > 200 
+        ? interceptedRequest.respond(res) 
+        : interceptedRequest.continoue()
+      )
 }
 
 if (isWorkerMode) {
