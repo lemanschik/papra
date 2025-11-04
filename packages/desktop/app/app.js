@@ -2,16 +2,16 @@
 import process, { env } from 'node:process';
 import { serve } from '@hono/node-server';
 // . === papra/apps/papra-server
-import { setupDatabase } from './modules/app/database/database';
-import { ensureLocalDatabaseDirectoryExists } from './modules/app/database/database.services';
-import { createGracefulShutdownService } from './modules/app/graceful-shutdown/graceful-shutdown.services';
-import { createServer } from './modules/app/server';
-import { parseConfig } from './modules/config/config';
-import { createDocumentStorageService } from './modules/documents/storage/documents.storage.services';
-import { createIngestionFolderWatcher } from './modules/ingestion-folders/ingestion-folders.usecases';
-import { createLogger } from './modules/shared/logger/logger';
-import { registerTaskDefinitions } from './modules/tasks/tasks.definitions';
-import { createTaskServices } from './modules/tasks/tasks.services';
+import { setupDatabase } from '@papra/app-server/modules/app/database/database';
+import { ensureLocalDatabaseDirectoryExists } from '@papra/app-server/modules/app/database/database.services';
+import { createGracefulShutdownService } from '@papra/app-server/modules/app/graceful-shutdown/graceful-shutdown.services';
+import { createServer } from '@papra/app-server/modules/app/server';
+import { parseConfig } from '@papra/app-server/modules/config/config';
+import { createDocumentStorageService } from '@papra/app-server/modules/documents/storage/documents.storage.services';
+import { createIngestionFolderWatcher } from '@papra/app-server/modules/ingestion-folders/ingestion-folders.usecases';
+import { createLogger } from '@papra/app-server/modules/shared/logger/logger';
+import { registerTaskDefinitions } from '@papra/app-server/modules/tasks/tasks.definitions';
+import { createTaskServices } from '@papra/app-server/modules/tasks/tasks.services';
 
 const logger = createLogger({ namespace: 'app-server' });
 
@@ -38,7 +38,7 @@ await taskServices.initialize();
 if (isWebMode) {
   const { app } = await createServer({ config, db, taskServices, documentsStorageService });
 
-      if (interceptedRequest.isInterceptResolutionHandled()){ return; }
+    if (interceptedRequest.isInterceptResolutionHandled()){ return; }
     
     // 1. Get the URL and Method
       app.fetch(new Request(
