@@ -1,1 +1,5 @@
-{ "name": "@papra/desktop", "description": "Use the Installer or npx @papra/desktop" }
+{ 
+  "name": "@papra/desktop", 
+  "description": "Use the Installer or npx @papra/desktop",
+  "workspaces": ["papra-server"]
+}
