@@ -26,6 +26,16 @@ const shutdownService = createGracefulShutdownService({ logger });
 const { registerShutdownHandler } = shutdownService;
 
 export const init = async () => {
+  // ENV NODE_ENV=production
+  // ENV SERVER_SERVE_PUBLIC_DIR=true
+  // ENV DATABASE_URL=file:./app-data/db/db.sqlite
+  // ENV DOCUMENT_STORAGE_FILESYSTEM_ROOT=./app-data/documents
+  // ENV PAPRA_CONFIG_DIR=./app-data
+  // ENV EMAILS_DRY_RUN=true
+  // ENV CLIENT_BASE_URL=http://localhost:1221
+  
+  // # Disable Better Auth telemetry
+  // ENV BETTER_AUTH_TELEMETRY=0
   await ensureLocalDatabaseDirectoryExists({ config });
   const { db } = setupDatabase({ ...config.database, registerShutdownHandler });
   
