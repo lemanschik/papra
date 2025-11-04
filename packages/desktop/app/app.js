@@ -1,18 +1,18 @@
 /* eslint-disable antfu/no-top-level-await */
 import process, { env } from 'node:process';
 
-import { setupDatabase } from '@papra/app-server/modules/app/database/database';
-import { ensureLocalDatabaseDirectoryExists } from '@papra/app-server/modules/app/database/database.services';
-import { createGracefulShutdownService } from '@papra/app-server/modules/app/graceful-shutdown/graceful-shutdown.services';
-import { createServer } from '@papra/app-server/modules/app/server';
-import { parseConfig } from '@papra/app-server/modules/config/config';
-import { createDocumentStorageService } from '@papra/app-server/modules/documents/storage/documents.storage.services';
-import { createIngestionFolderWatcher } from '@papra/app-server/modules/ingestion-folders/ingestion-folders.usecases';
-import { createLogger } from '@papra/app-server/modules/shared/logger/logger';
-import { registerTaskDefinitions } from '@papra/app-server/modules/tasks/tasks.definitions';
-import { createTaskServices } from '@papra/app-server/modules/tasks/tasks.services';
+import { setupDatabase } from '@papra/app-server/modules/app/database/database.js';
+import { ensureLocalDatabaseDirectoryExists } from '@papra/app-server/modules/app/database/database.services.js';
+import { createGracefulShutdownService } from '@papra/app-server/modules/app/graceful-shutdown/graceful-shutdown.services.js';
+import { createServer } from '@papra/app-server/modules/app/server.js';
+import { parseConfig } from '@papra/app-server/modules/config/config.js';
+import { createDocumentStorageService } from '@papra/app-server/modules/documents/storage/documents.storage.services.js';
+import { createIngestionFolderWatcher } from '@papra/app-server/modules/ingestion-folders/ingestion-folders.usecases.js';
+import { createLogger } from '@papra/app-server/modules/shared/logger/logger.js';
+import { registerTaskDefinitions } from '@papra/app-server/modules/tasks/tasks.definitions.js';
+import { createTaskServices } from '@papra/app-server/modules/tasks/tasks.services.js';
 
-const logger = createLogger({ namespace: 'app-server' });
+const logger = createLogger({ namespace: 'launcher-main' });
 
 const { config } = await parseConfig({ env });
 
